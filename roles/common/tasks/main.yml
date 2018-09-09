@@ -1,0 +1,11 @@
+---
+- name: cp
+  copy: src=nginx-1.14.0-1.el7_4.ngx.x86_64.rpm dest=/tmp/nginx-1.14.0-1.el7_4.ngx.x86_64.rpm
+- name: install
+  yum: name=/tmp/nginx-1.14.0-1.el7_4.ngx.x86_64.rpm state=latest
+- name: conf
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  tags: nginxconf
+  notify: new conf to reload
+- name: start service
+  service: name=nginx state=started enabled=true
